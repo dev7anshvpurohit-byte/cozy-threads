@@ -14,13 +14,162 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admins: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          address: string
+          city: string
+          country: string | null
+          created_at: string | null
+          id: number
+          postal_code: string
+          price_paid: number
+          product_id: number | null
+          quantity: number
+          size: string
+          state: string
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          address: string
+          city: string
+          country?: string | null
+          created_at?: string | null
+          id?: number
+          postal_code: string
+          price_paid: number
+          product_id?: number | null
+          quantity?: number
+          size: string
+          state: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          address?: string
+          city?: string
+          country?: string | null
+          created_at?: string | null
+          id?: number
+          postal_code?: string
+          price_paid?: number
+          product_id?: number | null
+          quantity?: number
+          size?: string
+          state?: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: number
+          image_url: string | null
+          in_stock: boolean | null
+          name: string
+          price: number
+          sizes: string[] | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          in_stock?: boolean | null
+          name: string
+          price: number
+          sizes?: string[] | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          in_stock?: boolean | null
+          name?: string
+          price?: number
+          sizes?: string[] | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          city: string | null
+          country: string | null
+          created_at: string | null
+          email: string
+          full_name: string | null
+          id: string
+          postal_code: string | null
+          state: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          email: string
+          full_name?: string | null
+          id: string
+          postal_code?: string | null
+          state?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          email?: string
+          full_name?: string | null
+          id?: string
+          postal_code?: string | null
+          state?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

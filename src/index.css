@@ -10,89 +10,104 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 209 40% 96%;
-    --foreground: 222 47% 11%;
+    --background: 30 25% 97%;
+    --foreground: 20 15% 15%;
 
-    --card: 210 40% 98%;
-    --card-foreground: 222 47% 11%;
+    --card: 30 20% 99%;
+    --card-foreground: 20 15% 15%;
 
-    --popover: 214 31% 91%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 30 20% 99%;
+    --popover-foreground: 20 15% 15%;
 
-    --primary: 216 19% 26%;
-    --primary-foreground: 210 19% 98%;
+    --primary: 25 60% 45%;
+    --primary-foreground: 30 25% 98%;
 
-    --secondary: 215 19% 34%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 30 15% 90%;
+    --secondary-foreground: 20 15% 20%;
 
-    --muted: 215 20% 65%;
-    --muted-foreground: 222 47% 11%;
+    --muted: 30 10% 92%;
+    --muted-foreground: 20 10% 45%;
 
-    --accent: 210 40% 98%;
-    --accent-foreground: 215 16% 46%;
+    --accent: 25 50% 92%;
+    --accent-foreground: 25 60% 35%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 85% 97%;
 
-    --border: 212 26% 83%;
-    --input: 212 26% 83%;
-    --ring: 216 19% 26%;
+    --border: 30 15% 85%;
+    --input: 30 15% 85%;
+    --ring: 25 60% 45%;
 
-    --radius: 0rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 30 20% 98%;
+    --sidebar-foreground: 20 15% 15%;
+    --sidebar-primary: 25 60% 45%;
+    --sidebar-primary-foreground: 30 25% 98%;
+    --sidebar-accent: 25 50% 92%;
+    --sidebar-accent-foreground: 25 60% 35%;
+    --sidebar-border: 30 15% 85%;
+    --sidebar-ring: 25 60% 45%;
 
-    --sidebar-foreground: 222 47% 11%;
+    --chart-1: 25 60% 45%;
+    --chart-2: 30 40% 55%;
+    --chart-3: 35 30% 65%;
+    --chart-4: 20 20% 75%;
+    --chart-5: 25 10% 85%;
 
-    --sidebar-primary: 216 19% 26%;
+    --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Crimson Pro', ui-serif, Georgia, serif;
 
-    --sidebar-primary-foreground: 210 19% 98%;
+    --shadow-sm: 0 1px 2px 0 hsl(20 15% 15% / 0.05);
+    --shadow: 0 1px 3px 0 hsl(20 15% 15% / 0.1), 0 1px 2px -1px hsl(20 15% 15% / 0.1);
+    --shadow-md: 0 4px 6px -1px hsl(20 15% 15% / 0.1), 0 2px 4px -2px hsl(20 15% 15% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(20 15% 15% / 0.1), 0 4px 6px -4px hsl(20 15% 15% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(20 15% 15% / 0.1), 0 8px 10px -6px hsl(20 15% 15% / 0.1);
+  }
 
-    --sidebar-accent: 215 19% 34%;
+  .dark {
+    --background: 20 15% 10%;
+    --foreground: 30 20% 95%;
 
-    --sidebar-accent-foreground: 210 40% 98%;
+    --card: 20 15% 14%;
+    --card-foreground: 30 20% 95%;
 
-    --sidebar-border: 212 26% 83%;
+    --popover: 20 15% 14%;
+    --popover-foreground: 30 20% 95%;
 
-    --sidebar-ring: 216 19% 26%;
+    --primary: 25 55% 55%;
+    --primary-foreground: 20 15% 10%;
 
-    --chart-1: 217 10% 64%;
+    --secondary: 20 10% 20%;
+    --secondary-foreground: 30 20% 90%;
 
-    --chart-2: 215 20% 65%;
+    --muted: 20 10% 18%;
+    --muted-foreground: 30 10% 60%;
 
-    --chart-3: 215 16% 46%;
+    --accent: 25 40% 20%;
+    --accent-foreground: 25 55% 70%;
 
-    --chart-4: 219 8% 46%;
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 85% 97%;
 
-    --chart-5: 215 19% 34%;
+    --border: 20 10% 22%;
+    --input: 20 10% 22%;
+    --ring: 25 55% 55%;
 
-    --sidebar: 210 40% 98%;
+    --sidebar-background: 20 15% 12%;
+    --sidebar-foreground: 30 20% 95%;
+    --sidebar-primary: 25 55% 55%;
+    --sidebar-primary-foreground: 20 15% 10%;
+    --sidebar-accent: 25 40% 20%;
+    --sidebar-accent-foreground: 25 55% 70%;
+    --sidebar-border: 20 10% 22%;
+    --sidebar-ring: 25 55% 55%;
 
-    --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-
-    --font-serif: 'Crimson Pro', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-
-    --font-mono: 'SF Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-
-    --tracking-normal: 0em;
-
-    --spacing: 0.25rem;
+    --chart-1: 25 55% 55%;
+    --chart-2: 30 45% 45%;
+    --chart-3: 35 35% 55%;
+    --chart-4: 20 25% 65%;
+    --chart-5: 25 15% 75%;
   }
 
   .dark {
