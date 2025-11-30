@@ -21,9 +21,10 @@ export default function Checkout() {
   const [success, setSuccess] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
   
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
+  const [city, setCity] = useState('Hyderabad');
+  const [state, setState] = useState('Telangana');
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('India');
 
@@ -42,9 +43,10 @@ export default function Checkout() {
       
       if (data) {
         setProfile(data as Profile);
+        setPhoneNumber(data.phone_number || '');
         setAddress(data.address || '');
-        setCity(data.city || '');
-        setState(data.state || '');
+        setCity(data.city || 'Hyderabad');
+        setState(data.state || 'Telangana');
         setPostalCode(data.postal_code || '');
         setCountry(data.country || 'India');
       }
@@ -61,8 +63,8 @@ export default function Checkout() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!address || !city || !state || !postalCode) {
-      toast.error('Please fill in all address fields');
+    if (!address || !city || !state || !postalCode || !phoneNumber) {
+      toast.error('Please fill in all required fields including phone number');
       return;
     }
 
@@ -83,15 +85,58 @@ export default function Checkout() {
         country,
       }));
 
-      const { error } = await supabase.from('orders').insert(orders);
+      const { data: insertedOrders, error } = await supabase
+        .from('orders')
+        .insert(orders)
+        .select('id');
 
       if (error) throw error;
 
-      // Update profile with address
+      // Update profile with address and phone
       await supabase
         .from('profiles')
-        .update({ address, city, state, postal_code: postalCode, country })
+        .update({ 
+          address, 
+          city, 
+          state, 
+          postal_code: postalCode, 
+          country,
+          phone_number: phoneNumber 
+        })
         .eq('id', user!.id);
+
+      // Send email notification to admins
+      const orderIds = insertedOrders?.map(o => o.id) || [];
+      const notificationData = {
+        orderIds,
+        customerName: profile?.full_name || '',
+        customerEmail: profile?.email || user!.email || '',
+        customerPhone: phoneNumber,
+        address,
+        city,
+        state,
+        postalCode,
+        country,
+        items: items.map(item => ({
+          productName: item.product.name,
+          size: item.size,
+          quantity: item.quantity,
+          price: item.product.price * item.quantity,
+        })),
+        totalAmount: totalPrice + shippingCost,
+        orderDate: new Date().toISOString(),
+      };
+
+      // Call the edge function to send email notification
+      supabase.functions.invoke('send-order-notification', {
+        body: notificationData,
+      }).then(({ error: fnError }) => {
+        if (fnError) {
+          console.error('Failed to send order notification:', fnError);
+        } else {
+          console.log('Order notification sent successfully');
+        }
+      });
 
       clearCart();
       setSuccess(true);
@@ -137,7 +182,20 @@ export default function Checkout() {
             <h2 className="font-semibold text-lg mb-4">Shipping Address</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="address">Full Address</Label>
+                <Label htmlFor="phoneNumber">Phone Number *</Label>
+                <Input
+                  id="phoneNumber"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="+91 9876543210"
+                  required
+                  className="mt-1"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="address">Full Address *</Label>
                 <Textarea
                   id="address"
                   value={address}
@@ -156,7 +214,7 @@ export default function Checkout() {
                     id="city"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    placeholder="Mumbai"
+                    placeholder="Hyderabad"
                     required
                     className="mt-1"
                   />
@@ -167,7 +225,7 @@ export default function Checkout() {
                     id="state"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
-                    placeholder="Maharashtra"
+                    placeholder="Telangana"
                     required
                     className="mt-1"
                   />
