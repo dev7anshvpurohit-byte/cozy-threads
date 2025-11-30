@@ -155,12 +155,27 @@ serve(async (req) => {
       </html>
     `;
 
-    const { data: emailData, error: emailError } = await resend.emails.send({
+    // Try sending to admins first
+    let emailData;
+    let emailError;
+    
+    ({ data: emailData, error: emailError } = await resend.emails.send({
       from: "Under the Hoodies <onboarding@resend.dev>",
       to: adminEmails,
       subject: `🧥 New Order #${orderData.orderIds[0]} - ₹${orderData.totalAmount.toLocaleString("en-IN")}`,
       html: emailHtml,
-    });
+    }));
+
+    // If domain not verified, fallback to sending to customer email only (for testing)
+    if (emailError && emailError.message?.includes("verify a domain")) {
+      console.log("Domain not verified, falling back to customer email for testing");
+      ({ data: emailData, error: emailError } = await resend.emails.send({
+        from: "Under the Hoodies <onboarding@resend.dev>",
+        to: [orderData.customerEmail],
+        subject: `🧥 Order Confirmation #${orderData.orderIds[0]} - ₹${orderData.totalAmount.toLocaleString("en-IN")}`,
+        html: emailHtml,
+      }));
+    }
 
     if (emailError) {
       console.error("Error sending email:", emailError);
