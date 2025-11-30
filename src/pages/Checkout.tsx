@@ -105,39 +105,6 @@ export default function Checkout() {
         })
         .eq('id', user!.id);
 
-      // Send email notification to admins
-      const orderIds = insertedOrders?.map(o => o.id) || [];
-      const notificationData = {
-        orderIds,
-        customerName: profile?.full_name || '',
-        customerEmail: profile?.email || user!.email || '',
-        customerPhone: phoneNumber,
-        address,
-        city,
-        state,
-        postalCode,
-        country,
-        items: items.map(item => ({
-          productName: item.product.name,
-          size: item.size,
-          quantity: item.quantity,
-          price: item.product.price * item.quantity,
-        })),
-        totalAmount: totalPrice + shippingCost,
-        orderDate: new Date().toISOString(),
-      };
-
-      // Call the edge function to send email notification
-      supabase.functions.invoke('send-order-notification', {
-        body: notificationData,
-      }).then(({ error: fnError }) => {
-        if (fnError) {
-          console.error('Failed to send order notification:', fnError);
-        } else {
-          console.log('Order notification sent successfully');
-        }
-      });
-
       clearCart();
       setSuccess(true);
       toast.success('Order placed successfully!');
