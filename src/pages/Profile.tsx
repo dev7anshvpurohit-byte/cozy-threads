@@ -19,9 +19,10 @@ export default function Profile() {
   const [profile, setProfile] = useState<ProfileType | null>(null);
   
   const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
+  const [city, setCity] = useState('Hyderabad');
+  const [state, setState] = useState('Telangana');
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('India');
 
@@ -46,9 +47,10 @@ export default function Profile() {
     if (data) {
       setProfile(data as ProfileType);
       setFullName(data.full_name || '');
+      setPhoneNumber(data.phone_number || '');
       setAddress(data.address || '');
-      setCity(data.city || '');
-      setState(data.state || '');
+      setCity(data.city || 'Hyderabad');
+      setState(data.state || 'Telangana');
       setPostalCode(data.postal_code || '');
       setCountry(data.country || 'India');
     }
@@ -63,6 +65,7 @@ export default function Profile() {
       .from('profiles')
       .update({
         full_name: fullName,
+        phone_number: phoneNumber,
         address,
         city,
         state,
@@ -110,15 +113,28 @@ export default function Profile() {
           <form onSubmit={handleSave} className="space-y-6">
             <div className="bg-card border border-border rounded-lg p-6">
               <h2 className="font-semibold mb-4">Personal Information</h2>
-              <div>
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input
-                  id="fullName"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="John Doe"
-                  className="mt-1"
-                />
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="fullName">Full Name</Label>
+                  <Input
+                    id="fullName"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="John Doe"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="phoneNumber">Phone Number</Label>
+                  <Input
+                    id="phoneNumber"
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="+91 9876543210"
+                    className="mt-1"
+                  />
+                </div>
               </div>
             </div>
 
@@ -144,7 +160,7 @@ export default function Profile() {
                       id="city"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      placeholder="Mumbai"
+                      placeholder="Hyderabad"
                       className="mt-1"
                     />
                   </div>
@@ -154,7 +170,7 @@ export default function Profile() {
                       id="state"
                       value={state}
                       onChange={(e) => setState(e.target.value)}
-                      placeholder="Maharashtra"
+                      placeholder="Telangana"
                       className="mt-1"
                     />
                   </div>
